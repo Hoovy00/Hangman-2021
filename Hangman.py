@@ -1,17 +1,17 @@
-import random
+#! import random
 from words import word_list
 
-def get_word():
+def get_random_word():
     word = random.choice(word_list)
     return word.upper()
+´´´get_random_word selects a random word from 'word_list', and returns it in uppercase´´´
 
-
-def play(word):
-    word_completion = "_" * len(word)
-    guessed = False
+def play_round_of_hangman(word):
+    currently_revealed = "_" * len(word)
+    has_won = False
     guessed_letters = []
     guessed_words = []
-    tries = 6
+    num_attempts_left = 6
     print("Let's play Hangman!")
     print(display_hangman(tries))
     print(word_completion)
@@ -23,15 +23,15 @@ def play(word):
                 print("You already guessed the letter", guess)
             elif guess not in word:
                 print(guess, "is not in the word.") 
-                tries -=1
+                tries = tries - 1
                 guessed_letters.append(guess)
             else:
                 print("Good job,", guess, "is in the word")
                 guessed_letters.append(guess)
                 word_as_list = list(word_completion)
-                indices = [i for i, letter in enumerate(word) if letter == guess]
-                for index in indices:
-                    word_as_list[index] = guess
+                  for index, letter in enumerate(word):
+                    if letter == guess:
+                        word_as_list[index] = guess
                 word_completion = "".join(word_as_list)
                 if "_" not in word_completion:
                         guessed = true
@@ -54,7 +54,8 @@ def play(word):
         print("Congrats, you guessed the word! You win!")
     else:
         print("Sorry, you ran out of tries. The word was " + word + ". Maybe next time!")
-
+    ´´´play_round_of_hangman is what runs the game itself´´´
+        
 def display_hangman(tries):
     stages = [  # final state: head, torso, both arms, and both legs
                 """
