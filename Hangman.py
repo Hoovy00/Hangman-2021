@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env pythons
 import random
 from words import word_list
 
