@@ -1,6 +1,7 @@
 #!/usr/bin/env pythons
 import random
 from words import word_list
+from Hanging_man import display_hangman
 
 def get_random_word():
     '''get_random_word selects a random word from 'word_list', and returns it in uppercase'''
@@ -20,7 +21,9 @@ def play_round_of_hangman(word):
     print("\n")
     while (not has_won) and (num_attempts_left > 0):
         guess = input("Please guess a letter or word: ").upper()
-        if len(guess) == 1 and guess.isalpha():
+        if not guess.isalpha():
+            print("Not a valid guess. Please choose a letter from the english alphabet.")
+        elif len(guess) == 1:
             if guess in guessed_letters:
                 print("You already guessed the letter", guess)
             elif guess not in word:
@@ -37,7 +40,7 @@ def play_round_of_hangman(word):
                 currently_revealed = "".join(word_as_list)
                 if "_" not in currently_revealed:
                         has_won = True
-        elif len(guess) == len(word) and guess.isalpha():
+        elif len(guess) == len(word):
             if guess in guessed_words:
                 print("You already num_attempts_left the word", guess)
             elif guess != word:
@@ -56,83 +59,9 @@ def play_round_of_hangman(word):
         print("Congrats, you guessed the word! You win!")
     else:
         print("Sorry, you ran out of tries. The word was " + word + ". Maybe next time!")
-        
-def display_hangman(num_attempts_left):
-    stages = [  # final state: head, torso, both arms, and both legs
-                """
-                   --------
-                   |      |
-                   |      O
-                   |     \\|/
-                   |      |
-                   |     / \\
-                   -
-                """,
-                # head, torso, both arms, and one leg
-                """
-                   --------
-                   |      |
-                   |      O
-                   |     \\|/
-                   |      |
-                   |     / 
-                   -
-                """,
-                # head, torso, and both arms
-                """
-                   --------
-                   |      |
-                   |      O
-                   |     \\|/
-                   |      |
-                   |      
-                   -
-                """,
-                # head, torso, and one arm
-                """
-                   --------
-                   |      |
-                   |      O
-                   |     \\|
-                   |      |
-                   |     
-                   -
-                """,
-                # head and torso
-                """
-                   --------
-                   |      |
-                   |      O
-                   |      |
-                   |      |
-                   |     
-                   -
-                """,
-                # head
-                """
-                   --------
-                   |      |
-                   |      O
-                   |    
-                   |      
-                   |     
-                   -
-                """,
-                # initial empty state
-                """
-                   --------
-                   |      |
-                   |      
-                   |    
-                   |      
-                   |     
-                   -
-                """
-    ]
-    return stages[num_attempts_left]
-
 
 def main():
+    """this allows the player to play again"""
     word = get_random_word()
     play_round_of_hangman(word)
     while input("Play Again? (Y/N) ").upper() == "Y":
